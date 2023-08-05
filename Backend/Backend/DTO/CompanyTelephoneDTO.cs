@@ -1,6 +1,6 @@
 ﻿namespace Backend.DTO
 {
-    public class CompanyTelephone
+    public class CompanyTelephoneDTO
     {
         public int Id { get; set; }
         public int CompanyAddress { get; set; }

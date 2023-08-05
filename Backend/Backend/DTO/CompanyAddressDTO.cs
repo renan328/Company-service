@@ -1,6 +1,6 @@
 ﻿namespace Backend.DTO
 {
-    public class CompanyAddress
+    public class CompanyAddressDTO
     {
         public int Id { get; set; }
         public int CompanyId { get; set; }
@@ -11,6 +11,6 @@
         public string Country { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime UpdateDate { get; set; }
-        public List<CompanyTelephone> CompanyTelephones { get; set; }
+        public List<CompanyTelephoneDTO> CompanyTelephones { get; set; }
     }
 }
