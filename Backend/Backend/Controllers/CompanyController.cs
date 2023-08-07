@@ -63,5 +63,35 @@ namespace Backend.Controllers
 
             return Ok("Empresa atualizada com sucesso!");
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCompany(int id)
+        {
+            var existingCompany = _companyDAO.ListCompany(id);
+            if (existingCompany == null)
+            {
+                return NotFound();
+            }
+
+            _companyDAO.DeleteCompany(id);
+
+            return Ok("Empresa deletada com sucesso!");
+        }
+
+        [HttpDelete("addresses/{addressId}")]
+        public IActionResult DeleteAddress(int addressId)
+        {
+            _companyDAO.DeleteAddress(addressId);
+
+            return Ok("Endereço deletado com sucesso!");
+        }
+
+        [HttpDelete("telephones/{telephoneId}")]
+        public IActionResult DeleteTelephone(int telephoneId)
+        {
+            _companyDAO.DeleteTelephone(telephoneId);
+
+            return Ok("Telefone deletado com sucesso!");
+        }
     }
 }

@@ -1,0 +1,53 @@
+.card {
+    background: #849FFF;
+    padding: 20px;
+    width: 350px;
+    border-radius: 15px;
+    color: #FFF;
+    box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-bottom: 50px;
+}
+
+.title {
+    font-size: 25px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.document {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+.addresses {
+    font-weight: 300;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.buttonShowMore {
+    display: flex;
+    justify-content: center;
+}
+
+.showMore {
+    background: #849FFF;
+    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    color: #FFF;
+    padding: 10px;
+    margin-top: 20px;
+    padding-inline: 20px;
+    border: none;
+    font-weight: 400;
+}
+
+.content {
+    display: flex;
+    margin: 0px auto;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    max-width: 80%;
+    margin-top: 40px;
+}

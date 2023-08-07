@@ -1,0 +1,32 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    align-items: center;
+    border-radius: 0px 0px 10px 10px;
+    background: #849FFF;
+    position: sticky;
+    top: 0px;
+
+}
+
+.title {
+    color: #fff;
+    font-size: 25px;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header ul {
+    display: flex;
+    list-style: none;
+}
+
+.header li {
+    font-size: 18px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}

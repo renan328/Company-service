@@ -84,13 +84,14 @@ namespace Backend.DAO
             var dataReader = comando.ExecuteReader();
 
             var companies = new List<CompanyDTO>();
+            var companyDictionary = new Dictionary<int, CompanyDTO>();
+            var addressDictionary = new Dictionary<int, CompanyAddressDTO>();
 
             while (dataReader.Read())
             {
                 var companyId = int.Parse(dataReader["CompanyId"].ToString());
-                var company = companies.FirstOrDefault(c => c.Id == companyId);
 
-                if (company == null)
+                if (!companyDictionary.TryGetValue(companyId, out var company))
                 {
                     company = new CompanyDTO
                     {
@@ -102,18 +103,17 @@ namespace Backend.DAO
                         CompanyAddresses = new List<CompanyAddressDTO>()
                     };
 
+                    companyDictionary.Add(companyId, company);
                     companies.Add(company);
                 }
 
                 var addressId = int.Parse(dataReader["CompanyAddressId"].ToString());
-                var address = company.CompanyAddresses.FirstOrDefault(a => a.Id == addressId);
-
-                if (address == null)
+                if (!addressDictionary.TryGetValue(addressId, out var address))
                 {
                     address = new CompanyAddressDTO
                     {
                         Id = addressId,
-                        CompanyId = company.Id,
+                        CompanyId = companyId,
                         Street = dataReader["Street"].ToString(),
                         Neighborhood = dataReader["Neighborhood"].ToString(),
                         City = dataReader["City"].ToString(),
@@ -124,15 +124,14 @@ namespace Backend.DAO
                         CompanyTelephones = new List<CompanyTelephoneDTO>()
                     };
 
+                    addressDictionary.Add(addressId, address);
                     company.CompanyAddresses.Add(address);
                 }
 
                 var telephoneId = int.Parse(dataReader["CompanyTelephoneId"].ToString());
-                var telephone = address.CompanyTelephones.FirstOrDefault(t => t.Id == telephoneId);
-
-                if (telephone == null)
+                if (!address.CompanyTelephones.Any(x => x.Id == telephoneId))
                 {
-                    telephone = new CompanyTelephoneDTO
+                    var telephone = new CompanyTelephoneDTO
                     {
                         Id = telephoneId,
                         CompanyAddress = address.Id,
@@ -150,6 +149,7 @@ namespace Backend.DAO
         }
 
 
+
         public void InsertCompany(CompanyDTO company)
         {
             var conexao = ConnectionFactory.Build();
@@ -159,8 +159,8 @@ namespace Backend.DAO
             var comandoCompany = new MySqlCommand(queryCompany, conexao);
             comandoCompany.Parameters.AddWithValue("@name", company.Name);
             comandoCompany.Parameters.AddWithValue("@document", company.Document);
-            comandoCompany.Parameters.AddWithValue("@createDate", company.CreateDate);
-            comandoCompany.Parameters.AddWithValue("@updateDate", company.UpdateDate);
+            comandoCompany.Parameters.AddWithValue("@createDate", DateTime.Now);
+            comandoCompany.Parameters.AddWithValue("@updateDate", DateTime.Now);
             comandoCompany.ExecuteNonQuery();
 
             var companyId = (int)comandoCompany.LastInsertedId;
@@ -175,8 +175,8 @@ namespace Backend.DAO
                 comandoAddress.Parameters.AddWithValue("@city", address.City);
                 comandoAddress.Parameters.AddWithValue("@postalCode", address.PostalCode);
                 comandoAddress.Parameters.AddWithValue("@country", address.Country);
-                comandoAddress.Parameters.AddWithValue("@createDate", address.CreateDate);
-                comandoAddress.Parameters.AddWithValue("@updateDate", address.UpdateDate);
+                comandoAddress.Parameters.AddWithValue("@createDate", DateTime.Now);
+                comandoAddress.Parameters.AddWithValue("@updateDate", DateTime.Now);
                 comandoAddress.ExecuteNonQuery();
 
                 var addressId = (int)comandoAddress.LastInsertedId;
@@ -187,8 +187,8 @@ namespace Backend.DAO
                     var comandoTelephone = new MySqlCommand(queryTelephone, conexao);
                     comandoTelephone.Parameters.AddWithValue("@addressId", addressId);
                     comandoTelephone.Parameters.AddWithValue("@phoneNumber", telephone.PhoneNumber);
-                    comandoTelephone.Parameters.AddWithValue("@createDate", telephone.CreateDate);
-                    comandoTelephone.Parameters.AddWithValue("@updateDate", telephone.UpdateDate);
+                    comandoTelephone.Parameters.AddWithValue("@createDate", DateTime.Now);
+                    comandoTelephone.Parameters.AddWithValue("@updateDate", DateTime.Now);
                     comandoTelephone.ExecuteNonQuery();
                 }
             }
@@ -206,41 +206,13 @@ namespace Backend.DAO
             comandoCompany.Parameters.AddWithValue("@id", company.Id);
             comandoCompany.Parameters.AddWithValue("@name", company.Name);
             comandoCompany.Parameters.AddWithValue("@document", company.Document);
-            comandoCompany.Parameters.AddWithValue("@updateDate", company.UpdateDate);
+            comandoCompany.Parameters.AddWithValue("@updateDate", DateTime.Now);
             comandoCompany.ExecuteNonQuery();
 
             var existingAddressIds = new List<int>();
             foreach (var address in company.CompanyAddresses)
             {
                 existingAddressIds.Add(address.Id);
-            }
-
-            var addressIdsToDelete = new List<int>();
-            var queryExistingAddresses = @"SELECT Id FROM CompanyAddress WHERE CompanyId = @companyId;";
-            var comandoExistingAddresses = new MySqlCommand(queryExistingAddresses, conexao);
-            comandoExistingAddresses.Parameters.AddWithValue("@companyId", company.Id);
-            var dataReader = comandoExistingAddresses.ExecuteReader();
-            while (dataReader.Read())
-            {
-                var addressId = int.Parse(dataReader["Id"].ToString());
-                if (!existingAddressIds.Contains(addressId))
-                {
-                    addressIdsToDelete.Add(addressId);
-                }
-            }
-            dataReader.Close();
-
-            foreach (var addressId in addressIdsToDelete)
-            {
-                var queryDeleteTelephones = @"DELETE FROM CompanyTelephone WHERE CompanyAddress = @addressId;";
-                var comandoDeleteTelephones = new MySqlCommand(queryDeleteTelephones, conexao);
-                comandoDeleteTelephones.Parameters.AddWithValue("@addressId", addressId);
-                comandoDeleteTelephones.ExecuteNonQuery();
-
-                var queryDeleteAddress = @"DELETE FROM CompanyAddress WHERE Id = @addressId;";
-                var comandoDeleteAddress = new MySqlCommand(queryDeleteAddress, conexao);
-                comandoDeleteAddress.Parameters.AddWithValue("@addressId", addressId);
-                comandoDeleteAddress.ExecuteNonQuery();
             }
 
             foreach (var address in company.CompanyAddresses)
@@ -262,8 +234,8 @@ namespace Backend.DAO
                 comandoAddress.Parameters.AddWithValue("@city", address.City);
                 comandoAddress.Parameters.AddWithValue("@postalCode", address.PostalCode);
                 comandoAddress.Parameters.AddWithValue("@country", address.Country);
-                comandoAddress.Parameters.AddWithValue("@createDate", address.CreateDate);
-                comandoAddress.Parameters.AddWithValue("@updateDate", address.UpdateDate);
+                comandoAddress.Parameters.AddWithValue("@createDate", DateTime.Now);
+                comandoAddress.Parameters.AddWithValue("@updateDate", DateTime.Now);
                 comandoAddress.ExecuteNonQuery();
 
                 if (address.Id == 0)
@@ -286,18 +258,67 @@ namespace Backend.DAO
                     comandoTelephone.Parameters.AddWithValue("@telephoneId", telephone.Id);
                     comandoTelephone.Parameters.AddWithValue("@addressId", address.Id);
                     comandoTelephone.Parameters.AddWithValue("@phoneNumber", telephone.PhoneNumber);
-                    comandoTelephone.Parameters.AddWithValue("@createDate", telephone.CreateDate);
-                    comandoTelephone.Parameters.AddWithValue("@updateDate", telephone.UpdateDate);
+                    comandoTelephone.Parameters.AddWithValue("@createDate", DateTime.Now);
+                    comandoTelephone.Parameters.AddWithValue("@updateDate", DateTime.Now);
                     comandoTelephone.ExecuteNonQuery();
-
-                    if (telephone.Id == 0)
-                    {
-                        telephone.Id = (int)comandoTelephone.LastInsertedId;
-                    }
                 }
             }
 
             conexao.Close();
         }
+
+        public void DeleteCompany(int id)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var queryDeleteTelephones = @"DELETE FROM CompanyTelephone WHERE CompanyAddress IN (SELECT Id FROM CompanyAddress WHERE CompanyId = @companyId);";
+            var comandoDeleteTelephones = new MySqlCommand(queryDeleteTelephones, conexao);
+            comandoDeleteTelephones.Parameters.AddWithValue("@companyId", id);
+            comandoDeleteTelephones.ExecuteNonQuery();
+
+            var queryDeleteAddresses = @"DELETE FROM CompanyAddress WHERE CompanyId = @companyId;";
+            var comandoDeleteAddresses = new MySqlCommand(queryDeleteAddresses, conexao);
+            comandoDeleteAddresses.Parameters.AddWithValue("@companyId", id);
+            comandoDeleteAddresses.ExecuteNonQuery();
+
+            var queryDeleteCompany = @"DELETE FROM Company WHERE Id = @id;";
+            var comandoDeleteCompany = new MySqlCommand(queryDeleteCompany, conexao);
+            comandoDeleteCompany.Parameters.AddWithValue("@id", id);
+            comandoDeleteCompany.ExecuteNonQuery();
+
+            conexao.Close();
+        }
+        public void DeleteAddress(int addressId)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var queryDeleteTelephones = @"DELETE FROM CompanyTelephone WHERE CompanyAddress = @addressId;";
+            var comandoDeleteTelephones = new MySqlCommand(queryDeleteTelephones, conexao);
+            comandoDeleteTelephones.Parameters.AddWithValue("@addressId", addressId);
+            comandoDeleteTelephones.ExecuteNonQuery();
+
+            var queryDeleteAddress = @"DELETE FROM CompanyAddress WHERE Id = @addressId;";
+            var comandoDeleteAddress = new MySqlCommand(queryDeleteAddress, conexao);
+            comandoDeleteAddress.Parameters.AddWithValue("@addressId", addressId);
+            comandoDeleteAddress.ExecuteNonQuery();
+
+            conexao.Close();
+        }
+
+        public void DeleteTelephone(int telephoneId)
+        {
+            var conexao = ConnectionFactory.Build();
+            conexao.Open();
+
+            var queryDeleteTelephone = @"DELETE FROM CompanyTelephone WHERE Id = @telephoneId;";
+            var comandoDeleteTelephone = new MySqlCommand(queryDeleteTelephone, conexao);
+            comandoDeleteTelephone.Parameters.AddWithValue("@telephoneId", telephoneId);
+            comandoDeleteTelephone.ExecuteNonQuery();
+
+            conexao.Close();
+        }
+
     }
 }
