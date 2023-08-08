@@ -1,11 +1,19 @@
 .card {
-    background: #849FFF;
-    padding: 20px;
-    width: 350px;
-    border-radius: 15px;
-    color: #FFF;
+    background-image: url('../../../assets/backgroundCard.png');
+    background-color: #FFF;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 10px;
+    width: 340px;
+    height: 350px;
+    color: #000;
     box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.25);
     margin-bottom: 50px;
+}
+
+.details{
+    margin-top: 50%;
 }
 
 .title {
@@ -15,8 +23,9 @@
 }
 
 .document {
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 400;
+    color: rgba(0, 0, 0, 0.58);
     margin-bottom: 30px;
 }
 
@@ -32,15 +41,15 @@
 }
 
 .showMore {
-    background: #849FFF;
+    background: #000;
     box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
     color: #FFF;
+    width: 100%;
     padding: 10px;
     margin-top: 20px;
     padding-inline: 20px;
     border: none;
-    font-weight: 400;
+    font-weight: 500;
 }
 
 .content {
