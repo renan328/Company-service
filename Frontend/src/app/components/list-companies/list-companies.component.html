@@ -2,7 +2,7 @@
     <div *ngFor="let company of companies" class="card">
         <div class="details">
             <h2 class="title">{{company.name}}</h2>
-            <h3 class="document">{{formatDocument(company.document)}}</h3>
+            <h3 class="document">{{company.document | cnpj}}</h3>
             <h4 class="addresses">{{company.companyAddresses.length}} endereços disponíveis</h4>
         </div>
         <div class="buttonShowMore">

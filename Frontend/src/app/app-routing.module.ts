@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListCompaniesComponent } from './components/list-companies/list-companies.component';
-import { InsertCompaniesComponent } from './components/insert-companies/insert-companies.component';
-import { DetailsCompanyComponent } from './components/details-company/details-company.component';
+import { DetailsCompanyComponent } from './components/pages/details-company/details-company.component';
+import { HomeComponent } from './components/pages/home/home.component';
+import { InsertCompanyComponent } from './components/pages/insert-company/insert-company.component';
 
 const routes: Routes = [
-  {path: '', component: ListCompaniesComponent},
-  {path: 'cadastro', component: InsertCompaniesComponent},
+  {path: '', component: HomeComponent},
+  {path: 'cadastro', component: InsertCompanyComponent},
   {path: 'company/:id', component: DetailsCompanyComponent},
 
 ];

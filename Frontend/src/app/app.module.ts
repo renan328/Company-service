@@ -5,15 +5,21 @@ import {HttpClientModule} from '@angular/common/http'
 
 import { AppComponent } from './app.component';
 import { ListCompaniesComponent } from './components/list-companies/list-companies.component';
-import { InsertCompaniesComponent } from './components/insert-companies/insert-companies.component';
-import { DetailsCompanyComponent } from './components/details-company/details-company.component';
+import { DetailsCompanyComponent } from './components/pages/details-company/details-company.component';
+import { CNPJPipe } from './cnpj.pipe';
+import { HomeComponent } from './components/pages/home/home.component';
+import { InsertCompanyComponent } from './components/pages/insert-company/insert-company.component';
+import { FormCompanyComponent } from './components/form-company/form-company.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListCompaniesComponent,
-    InsertCompaniesComponent,
-    DetailsCompanyComponent
+    DetailsCompanyComponent,
+    CNPJPipe,
+    HomeComponent,
+    InsertCompanyComponent,
+    FormCompanyComponent
   ],
   imports: [
     BrowserModule,

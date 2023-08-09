@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { Company, CompanyAddress, CompanyTelephone } from 'src/app/Company';
+
 @Component({
-  selector: 'app-insert-companies',
-  templateUrl: './insert-companies.component.html',
-  styleUrls: ['./insert-companies.component.css']
+  selector: 'app-form-company',
+  templateUrl: './form-company.component.html',
+  styleUrls: ['./form-company.component.css']
 })
-export class InsertCompaniesComponent {
+export class FormCompanyComponent {
   company: Company = {
     id: 0,
     name: '',
@@ -53,5 +54,4 @@ export class InsertCompaniesComponent {
   removeAddress(index: number): void {
     this.company.companyAddresses.splice(index, 1);
   }
-
 }
