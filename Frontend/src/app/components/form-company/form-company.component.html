@@ -1,70 +1,88 @@
-<div class="companyFields">
+<form (ngSubmit)="submit()" [formGroup]="companyForm" #formDir="ngForm" class="companyFields">
     <div class="company">
 
         <h2 class="subTitle">Empresa</h2>
         <div class="fields">
             <div class="field">
-                <h3 class="titleField">Nome</h3>
-                <input class="inputField" type="text" placeholder="Digite o nome">
+                <label class="titleField">Razão social</label>
+                <input class="inputField" type="text" placeholder="Digite o nome" formControlName="name" required>
             </div>
             <div class="field">
-                <h3 class="titleField">CNPJ</h3>
-                <input class="inputField" type="text" placeholder="Ex: XX.XXX.XXX/0001-XX">
+                <label class="titleField">CNPJ</label>
+                <input class="inputField" type="text" placeholder="Ex: XX.XXX.XXX/0001-XX" formControlName="document"
+                    required>
             </div>
         </div>
-    </div>
+        <div formArrayName="companyAddresses" class="addressesFields">
+            <h2 class="subTitle">Endereços</h2>
 
-    <div class="addressesFields">
-        <h2 class="subTitle">Endereço</h2>
+            <div class="addressesFields">
 
-        <div *ngFor="let address of company?.companyAddresses; let i = index">
-            <div class="addressBackground">
 
-                <div class="addressSection">
+                <div *ngFor="let address of getAddressesControls(); let i = index" [formGroupName]="i">
+                    <h2 class="titleSection">Endereço {{ i + 1 }}</h2>
 
-                    <div class="field">
-                        <h3 class="titleField">Rua</h3>
-                        <input class="inputField" type="text" placeholder="Ex: Rua tal, 123">
-                    </div>
+                    <div>
+                        <div class="addressBackground">
+                            <div class="addressSection">
 
-                    <div class="field">
-                        <h3 class="titleField">Bairro</h3>
-                        <input class="inputField" type="text" placeholder="Ex: Morumbi">
-                    </div>
+                                <div class="field">
+                                    <label for="street" class="titleField">Rua:</label>
+                                    <input type="text" id="street" name="street" required class="inputField" placeholder="Ex: Rua tal, 123" formControlName="street">
+                                
+                                </div>
 
-                    <div class="field">
-                        <h3 class="titleField">Cidade</h3>
-                        <input class="inputField" type="text" placeholder="Ex: São Paulo">
-                    </div>
+                                <div class="field">
+                                    <label for="neighborhood" class="titleField">Bairro:</label>
+                                    <input type="text" id="neighborhood" name="neighborhood" required class="inputField"
+                                        placeholder="Ex: Morumbi" formControlName="neighborhood">
+                                </div>
 
-                    <div class="field">
-                        <h3 class="titleField">CEP</h3>
-                        <input class="inputField" type="text" placeholder="Ex: 01001-000">
-                    </div>
+                                <div class="field">
+                                    <label for="city" class="titleField">Cidade:</label>
+                                    <input type="text" id="city" name="city" required class="inputField"
+                                        placeholder="Ex: São Paulo" formControlName="city">
+                                </div>
 
-                    <div class="field">
-                        <h3 class="titleField">País</h3>
-                        <input class="inputField" type="text" placeholder="Ex: Brasil">
-                    </div>
-                </div>
+                                <div class="field">
+                                    <label for="postalCode" class="titleField">Código Postal:</label>
+                                    <input type="text" id="postalCode" name="postalCode" required class="inputField"
+                                        placeholder="Ex: 01001-000" formControlName="postalCode">
+                                </div>
 
-                <div class="fieldPhone">
-                    <h3 class="titleField">Telefones</h3>
-                    <div *ngFor="let phone of address.companyTelephones; let j = index" class="phoneSection">
-                        <div class="phoneField">
-                            <input class="inputField" type="text" placeholder="Ex: +55 11 9XXXXYYYY">
-                            
-                            <button *ngIf="j > 0" (click)="removePhone(i, j)" class="removePhone">Remover</button>
+                                <div class="field">
+                                    <label for="country" class="titleField">País:</label>
+                                    <input type="text" id="country" name="country" required class="inputField"
+                                        placeholder="Ex: Brasil" formControlName="country">
+                                </div>
+
+                            </div>
+
+                            <div formArrayName="companyTelephones" class="fieldPhone">
+                                <label class="titleField">Telefones</label>
+
+                                <div *ngFor="let phone of getPhonesControls(address); let j = index" [formGroupName]="j"
+                                    class="phoneSection">
+                                    <div class="phoneField">
+                                        <input type="text" id="number" name="number" class="inputField"
+                                            placeholder="Ex: (123) 456-7890" formControlName="phoneNumber">
+
+                                        <button type="button" (click)="removePhone(address, j)"
+                                            class="removePhone">Remover</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" (click)="addPhone(address)" class="addPhone">Adicionar Telefone</button>
                         </div>
+
+                        <button type="button" *ngIf="i > 0" (click)="removeAddress(i)" class="removeAddressBtn">Remover Endereço</button>
                     </div>
                 </div>
-                <button (click)="addPhone(i)" class="addPhone">Adicionar Telefone</button>
+
+                <button type="button" (click)="addAddress()" class="addAddress">Adicionar Endereço</button>
             </div>
-
-            <button *ngIf="i > 0" class="removeAddressBtn" (click)="removeAddress(i)">Remover Endereço</button>
         </div>
-
-        <button (click)="addAddress()" class="addAddress">Adicionar Endereço</button>
-
     </div>
-</div>
+    <button type="submit" class="submitInput">Cadastrar</button>
+</form>

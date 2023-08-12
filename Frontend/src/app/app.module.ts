@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { AppRoutingModule } from './app-routing.module';
-import {HttpClientModule} from '@angular/common/http' 
+import { HttpClientModule } from '@angular/common/http'
 
 import { AppComponent } from './app.component';
 import { ListCompaniesComponent } from './components/list-companies/list-companies.component';
@@ -10,7 +12,6 @@ import { CNPJPipe } from './cnpj.pipe';
 import { HomeComponent } from './components/pages/home/home.component';
 import { InsertCompanyComponent } from './components/pages/insert-company/insert-company.component';
 import { FormCompanyComponent } from './components/form-company/form-company.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,12 +20,14 @@ import { FormCompanyComponent } from './components/form-company/form-company.com
     CNPJPipe,
     HomeComponent,
     InsertCompanyComponent,
-    FormCompanyComponent
+    FormCompanyComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
