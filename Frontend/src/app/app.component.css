@@ -1,21 +1,30 @@
 .header {
     display: flex;
     justify-content: space-between;
-    padding: 15px;
     align-items: center;
     border-radius: 0px 0px 10px 10px;
-    background: #000;
-    position: sticky;
-    top: 0px;
+    background: #C1D4E1;
+    padding: 15px;
+}
 
+.vectorArea {
+    position: absolute;
+}
+
+.backgroundVector{
+    margin-left: -15px;
+    margin-top: -15px;
+    width: 60%;
 }
 
 .title {
     color: #fff;
     font-size: 25px;
-    font-weight: 600;
+    font-weight: 700;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: 0.2s;
+    cursor: pointer;
+    position: relative;
 }
 
 .title:hover {
@@ -39,5 +48,5 @@
 }
 
 .header li:hover {
-    color: #C1D4E1;
+    color: #000;
 }

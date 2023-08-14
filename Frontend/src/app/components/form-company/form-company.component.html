@@ -1,59 +1,84 @@
-<form (ngSubmit)="submit()" [formGroup]="companyForm" #formDir="ngForm" class="companyFields">
+<form (ngSubmit)="submitForm()" [formGroup]="companyForm" #formDir="ngForm" class="companyFields">
     <div class="company">
 
-        <h2 class="subTitle">Empresa</h2>
         <div class="fields">
             <div class="field">
                 <label class="titleField">Razão social</label>
                 <input class="inputField" type="text" placeholder="Digite o nome" formControlName="name" required>
+
+                <div *ngIf="name.invalid && formDir.submitted" class="validation-error">
+                    <p>O nome é obrigatório!</p>
+                </div>
             </div>
             <div class="field">
                 <label class="titleField">CNPJ</label>
                 <input class="inputField" type="text" placeholder="Ex: XX.XXX.XXX/0001-XX" formControlName="document"
                     required>
+
+                <div *ngIf="document.invalid && formDir.submitted" class="validation-error">
+                    <p>O CNPJ é obrigatório!</p>
+                </div>
             </div>
         </div>
         <div formArrayName="companyAddresses" class="addressesFields">
-            <h2 class="subTitle">Endereços</h2>
 
             <div class="addressesFields">
 
-
                 <div *ngFor="let address of getAddressesControls(); let i = index" [formGroupName]="i">
-                    <h2 class="titleSection">Endereço {{ i + 1 }}</h2>
-
+                    
                     <div>
                         <div class="addressBackground">
+                            <h2 class="titleSection">Endereço {{ i + 1 }}</h2>
                             <div class="addressSection">
 
                                 <div class="field">
                                     <label for="street" class="titleField">Rua:</label>
-                                    <input type="text" id="street" name="street" required class="inputField" placeholder="Ex: Rua tal, 123" formControlName="street">
-                                
+                                    <input type="text" id="street" name="street" required class="inputField"
+                                        placeholder="Ex: Rua tal, 123" formControlName="street">
+
+                                    <div *ngIf="getAddressesControls()[i].get('street')?.invalid && formDir.submitted" class="validation-error">
+                                        <p>A rua é obrigatória!</p>
+                                    </div>
                                 </div>
 
                                 <div class="field">
                                     <label for="neighborhood" class="titleField">Bairro:</label>
                                     <input type="text" id="neighborhood" name="neighborhood" required class="inputField"
                                         placeholder="Ex: Morumbi" formControlName="neighborhood">
+
+                                    <div *ngIf="getAddressesControls()[i].get('neighborhood')?.invalid && formDir.submitted" class="validation-error">
+                                        <p>O bairro é obrigatório!</p>
+                                    </div>
                                 </div>
 
                                 <div class="field">
                                     <label for="city" class="titleField">Cidade:</label>
                                     <input type="text" id="city" name="city" required class="inputField"
                                         placeholder="Ex: São Paulo" formControlName="city">
+
+                                    <div *ngIf="getAddressesControls()[i].get('city')?.invalid && formDir.submitted" class="validation-error">
+                                        <p>A cidade é obrigatória!</p>
+                                    </div>
                                 </div>
 
                                 <div class="field">
                                     <label for="postalCode" class="titleField">Código Postal:</label>
                                     <input type="text" id="postalCode" name="postalCode" required class="inputField"
                                         placeholder="Ex: 01001-000" formControlName="postalCode">
+
+                                    <div *ngIf="getAddressesControls()[i].get('postalCode')?.invalid && formDir.submitted" class="validation-error">
+                                        <p>O CEP é obrigatório!</p>
+                                    </div>
                                 </div>
 
                                 <div class="field">
                                     <label for="country" class="titleField">País:</label>
                                     <input type="text" id="country" name="country" required class="inputField"
                                         placeholder="Ex: Brasil" formControlName="country">
+
+                                    <div *ngIf="getAddressesControls()[i].get('country')?.invalid && formDir.submitted" class="validation-error">
+                                        <p>O país é obrigatório!</p>
+                                    </div>
                                 </div>
 
                             </div>
@@ -67,16 +92,22 @@
                                         <input type="text" id="number" name="number" class="inputField"
                                             placeholder="Ex: (123) 456-7890" formControlName="phoneNumber">
 
-                                        <button type="button" (click)="removePhone(address, j)"
+                                        <button *ngIf="j > 0" type="button" (click)="removePhone(address, j)"
                                             class="removePhone">Remover</button>
+
+                                        <div *ngIf="phone.get('phoneNumber')?.invalid && formDir.submitted" class="validation-error">
+                                            <p>O telefone é obrigatório!</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <button type="button" (click)="addPhone(address)" class="addPhone">Adicionar Telefone</button>
+                            <button type="button" (click)="addPhone(address)" class="addPhone">Adicionar
+                                Telefone</button>
                         </div>
 
-                        <button type="button" *ngIf="i > 0" (click)="removeAddress(i)" class="removeAddressBtn">Remover Endereço</button>
+                        <button type="button" *ngIf="i > 0" (click)="removeAddress(i)" class="removeAddressBtn">Remover
+                            Endereço</button>
                     </div>
                 </div>
 
@@ -84,5 +115,5 @@
             </div>
         </div>
     </div>
-    <button type="submit" class="submitInput">Cadastrar</button>
+    <button type="submit" class="submitInput">{{btnText}}</button>
 </form>

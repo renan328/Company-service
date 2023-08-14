@@ -1,6 +1,13 @@
-.title {
+.headerContent{
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 70%;
+    margin: 0px auto;
+}
+
+.title {
     margin-top: 30px;
     text-transform: uppercase;
     color: #000;
@@ -8,16 +15,8 @@
 }
 
 .document {
-    display: flex;
-    justify-content: center;
     margin-bottom: 15px;
     font-weight: 500;
-}
-
-.btnArea {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 35px;
 }
 
 .editButton {
@@ -47,40 +46,60 @@
 }
 
 .details {
-    width: 80%;
+    width: 70%;
     margin: 0px auto;
     display: flex;
-    justify-content: space-between;
-    background: #F4F4F4;
-    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    padding: 20px;
-    padding-inline: 30px;
+    margin-top: 30px;
     margin-bottom: 50px;
+    flex-wrap: wrap;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
+}
+
+.sideBar {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    background: #000;
+    padding: 15px;
+}
+
+.contentArea{
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    flex-wrap: nowrap;
 }
 
 .line {
-    height: 80%;
     width: 3px;
+    align-self: center;
     margin: 0px auto;
-    background: rgba(0, 0, 0, 0.5);
 }
 
 .addresses {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    margin-top: 5px;
+    padding: 20px;
+    margin-right: 5%;
+    gap: 5px;
+}
+
+.areaTelephones{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 15px;
 }
 
 .telephones {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
-.subTitle {
-
-    margin-top: 5px;
+.titleDescription {
+    margin-top: 10px;
 }

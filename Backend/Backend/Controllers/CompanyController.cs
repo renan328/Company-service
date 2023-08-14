@@ -42,7 +42,7 @@ namespace Backend.Controllers
 
             _companyDAO.InsertCompany(company);
 
-            return Ok("Empresa cadastrada com sucesso!");
+            return Ok();
         }
 
         [HttpPut]
@@ -53,15 +53,9 @@ namespace Backend.Controllers
                 return BadRequest("Dados da empresa não foram fornecidos.");
             }
 
-            var existingCompany = _companyDAO.ListCompany(company.Id);
-            if (existingCompany == null)
-            {
-                return NotFound();
-            }
-
             _companyDAO.UpdateCompany(company);
 
-            return Ok("Empresa atualizada com sucesso!");
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -75,23 +69,7 @@ namespace Backend.Controllers
 
             _companyDAO.DeleteCompany(id);
 
-            return Ok("Empresa deletada com sucesso!");
-        }
-
-        [HttpDelete("addresses/{addressId}")]
-        public IActionResult DeleteAddress(int addressId)
-        {
-            _companyDAO.DeleteAddress(addressId);
-
-            return Ok("Endereço deletado com sucesso!");
-        }
-
-        [HttpDelete("telephones/{telephoneId}")]
-        public IActionResult DeleteTelephone(int telephoneId)
-        {
-            _companyDAO.DeleteTelephone(telephoneId);
-
-            return Ok("Telefone deletado com sucesso!");
+            return Ok();
         }
     }
 }

@@ -1,3 +1,5 @@
-<h1 class="title">CADASTRO DE EMPRESA</h1>
+<div class="content">
+    <h1 class="title">CADASTRO DE EMPRESA</h1>
 
-<app-form-company (onsubmit)="createHandler($event)"></app-form-company>
+    <app-form-company [btnText]="btnText" (onSubmit)="createHandler($event)"></app-form-company>
+</div>

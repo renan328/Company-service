@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Company } from 'src/app/Company';
 import { CompanyAddress } from 'src/app/CompanyAddress';
-import { FormBuilder, FormControl, FormGroup, FormArray, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormArray, AbstractControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-form-company',
@@ -10,34 +10,82 @@ import { FormBuilder, FormControl, FormGroup, FormArray, AbstractControl } from 
 })
 export class FormCompanyComponent {
   @Output() onSubmit = new EventEmitter<Company>();
+  @Input() companyData?: Company;
+  @Input() btnText!: string;
+
   company: Company = {
+    id: 0,
     name: '',
     document: '',
     companyAddresses: []
   };
 
-  companyForm: FormGroup;
+  companyForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder) { }
+
+  ngOnInit() {
     this.companyForm = this.formBuilder.group({
-      name: [''],
-      document: [''],
+      id: [0],
+      name: ['', Validators.required],
+      document: ['', Validators.required],
       companyAddresses: this.formBuilder.array([
         this.createAddress()
       ])
     });
+
+    if (this.companyData) {
+      this.companyForm.patchValue({
+        id: this.companyData.id,
+        name: this.companyData.name,
+        document: this.companyData.document
+      });
+
+      const addressesArray = this.companyForm.get('companyAddresses') as FormArray;
+      addressesArray.clear();
+
+      this.companyData.companyAddresses.forEach(address => {
+        const addressGroup = this.formBuilder.group({
+          id: address.id,
+          street: address.street,
+          neighborhood: address.neighborhood,
+          city: address.city,
+          postalCode: address.postalCode,
+          country: address.country,
+          companyTelephones: this.formBuilder.array([])
+        });
+        address.companyTelephones.forEach(phone => {
+          const phoneGroup = this.formBuilder.group({
+            id: phone.id,
+            phoneNumber: phone.phoneNumber
+          });
+          const phonesArray = addressGroup.get('companyTelephones') as FormArray;
+          phonesArray.push(phoneGroup);
+        });
+
+        addressesArray.push(addressGroup);
+      });
+    }
   }
-
-
 
   createAddress() {
     return this.formBuilder.group({
-      street: [''],
-      neighborhood: [''],
-      city: [''],
-      postalCode: [''],
-      country: [''],
-      companyTelephones: this.formBuilder.array([]) // Inicializa o FormArray vazio para os telefones
+      id: [0],
+      street: ['', Validators.required],
+      neighborhood: ['', Validators.required],
+      city: ['', Validators.required],
+      postalCode: ['', Validators.required],
+      country: ['', Validators.required],
+      companyTelephones: this.formBuilder.array([
+        this.createPhone()
+      ])
+    });
+  }
+
+  createPhone() {
+    return this.formBuilder.group({
+      id: [0],
+      phoneNumber: ['', Validators.required]
     });
   }
 
@@ -79,9 +127,7 @@ export class FormCompanyComponent {
 
   addPhone(address: AbstractControl) {
     const phones = address.get('companyTelephones') as FormArray;
-    phones.push(this.formBuilder.group({
-      phoneNumber: [''],
-    }));
+    phones.push(this.createPhone());
   }
 
   removePhone(address: AbstractControl, phoneIndex: number) {
@@ -92,17 +138,15 @@ export class FormCompanyComponent {
   getAddressesControls() {
     return (this.companyForm.get('companyAddresses') as FormArray).controls;
   }
-  
+
   getPhonesControls(address: AbstractControl) {
     return (address.get('companyTelephones') as FormArray).controls;
   }
 
-  submit() {
-    // if (this.companyForm.invalid) {
-    //   return;
-    // }
-
-    // console.log(this.companyForm.value);
+  submitForm() {
+    if (this.companyForm.invalid) {
+      return;
+    }
 
     this.onSubmit.emit(this.companyForm.value);
   }

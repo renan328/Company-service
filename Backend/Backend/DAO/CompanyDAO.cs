@@ -209,11 +209,20 @@ namespace Backend.DAO
             comandoCompany.Parameters.AddWithValue("@updateDate", DateTime.Now);
             comandoCompany.ExecuteNonQuery();
 
-            var existingAddressIds = new List<int>();
-            foreach (var address in company.CompanyAddresses)
+            var queryExistingAddresses = "SELECT Id FROM CompanyAddress WHERE CompanyId = @companyid";
+            var comandoExistingAddresses = new MySqlCommand(queryExistingAddresses, conexao);
+            comandoExistingAddresses.Parameters.AddWithValue("@companyid", company.Id);
+            var dataReaderExistingAddresses = comandoExistingAddresses.ExecuteReader();
+
+            var ExistingAddressesIds = new List<int>();
+
+            while (dataReaderExistingAddresses.Read())
             {
-                existingAddressIds.Add(address.Id);
+                var idAddress = int.Parse(dataReaderExistingAddresses["Id"].ToString());
+                ExistingAddressesIds.Add(idAddress);
             }
+
+            dataReaderExistingAddresses.Close();
 
             foreach (var address in company.CompanyAddresses)
             {
@@ -225,6 +234,7 @@ namespace Backend.DAO
                 else
                 {
                     queryAddress = @"UPDATE CompanyAddress SET Street = @street, Neighborhood = @neighborhood, City = @city, PostalCode = @postalCode, Country = @country, UpdateDate = @updateDate WHERE Id = @addressId;";
+                    ExistingAddressesIds.Remove(address.Id);
                 }
                 var comandoAddress = new MySqlCommand(queryAddress, conexao);
                 comandoAddress.Parameters.AddWithValue("@addressId", address.Id);
@@ -243,6 +253,23 @@ namespace Backend.DAO
                     address.Id = (int)comandoAddress.LastInsertedId;
                 }
 
+
+                var queryExistingTelephones = "SELECT Id FROM CompanyTelephone WHERE CompanyAddress = @companyAddress";
+                var comandoExistingTelephones = new MySqlCommand(queryExistingTelephones, conexao);
+                comandoExistingTelephones.Parameters.AddWithValue("@companyAddress", address.Id);
+                var dataReaderExistingTelephones = comandoExistingTelephones.ExecuteReader();
+
+                var ExistingTelephonesIds = new List<int>();
+
+                while (dataReaderExistingTelephones.Read())
+                {
+                    var idTelephone = int.Parse(dataReaderExistingTelephones["Id"].ToString());
+                    ExistingTelephonesIds.Add(idTelephone);
+                }
+
+                dataReaderExistingTelephones.Close();
+
+
                 foreach (var telephone in address.CompanyTelephones)
                 {
                     string queryTelephone;
@@ -253,6 +280,7 @@ namespace Backend.DAO
                     else
                     {
                         queryTelephone = @"UPDATE CompanyTelephone SET PhoneNumber = @phoneNumber, UpdateDate = @updateDate WHERE Id = @telephoneId;";
+                        ExistingTelephonesIds.Remove(telephone.Id);
                     }
                     var comandoTelephone = new MySqlCommand(queryTelephone, conexao);
                     comandoTelephone.Parameters.AddWithValue("@telephoneId", telephone.Id);
@@ -262,6 +290,16 @@ namespace Backend.DAO
                     comandoTelephone.Parameters.AddWithValue("@updateDate", DateTime.Now);
                     comandoTelephone.ExecuteNonQuery();
                 }
+
+                foreach (var telephoneId in ExistingTelephonesIds)
+                {
+                    DeleteTelephone(telephoneId);
+                }
+            }
+
+            foreach (var addressId in ExistingAddressesIds)
+            {
+                DeleteAddress(addressId);
             }
 
             conexao.Close();

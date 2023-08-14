@@ -1,32 +1,40 @@
 <div *ngIf="company" class="content">
-    <h1 class="title">{{company.name}}</h1>
-    <h3 class="document">{{company.document | cnpj}}</h3>
-
-    <div class="btnArea">
-        <button class="editButton">Editar</button>
-        <button class="removeButton">Remover</button>
-    </div>
-
-    <div *ngFor="let companyAddress of company.companyAddresses" class="details">
-        <div class="addresses">
-            <h3 class="titleAddress">Endereço</h3>
-            <span class="subTitle"><b>Rua:</b> {{companyAddress.street}}</span>
-            <span class="subTitle"><b>Bairro:</b> {{companyAddress.neighborhood}}</span>
-            <span class="subTitle"><b>Cidade:</b> {{companyAddress.city}}</span>
-            <span class="subTitle"><b>CEP: </b>{{companyAddress.postalCode}}</span>
-            <span class="subTitle"><b>País:</b> {{companyAddress.country}}</span>
-            <span class="subTitle"><b>Data de cadastro:</b> {{companyAddress.createDate | date:"dd/MM/yyyy HH:mm"}}</span>
-            <span class="subTitle"><b>Útima atualização:</b> {{companyAddress.updateDate | date:"dd/MM/yyyy HH:mm"}}</span>
+    
+    <div class="headerContent">    
+        <div>
+            <h1 class="title">{{company.name}}</h1>
+            <h3 class="document">{{company.document | cnpj}}</h3>
         </div>
-
-        <img src="../../../assets/LineCardAddress.png" alt="line" class="line">
-
-        <div class="areaTelephones">
-            <h3 class="titleAddress">Telefones</h3>
-            <div *ngFor="let companyTelephone of companyAddress.companyTelephones" class="telephones">
-                <span class="subTitle"><b>Número:</b> {{companyTelephone.phoneNumber}}</span>
-                <span class="subTitle"><b>Data de cadastro:</b> {{companyTelephone.createDate | date:"dd/MM/yyyy HH:mm"}}</span>
-                <span class="subTitle"><b>Útima atualização:</b> {{companyTelephone.updateDate | date:"dd/MM/yyyy HH:mm"}}</span>
+        
+        <div class="btnArea">
+            <button class="editButton" [routerLink]="['/company/update', company.id]">Editar</button>
+            <button (click)="deleteCompany()" class="removeButton">Remover</button>
+        </div>
+    </div>
+ 
+    <div *ngFor="let companyAddress of company.companyAddresses" class="details">
+        <div class="sideBar"></div>
+        <div class="contentArea">
+            <div class="addresses">
+                <h3 class="titleAddress">Endereço</h3>
+                <span class="titleDescription"><b>Rua:</b> {{companyAddress.street}}</span>
+                <span class="titleDescription"><b>Bairro:</b> {{companyAddress.neighborhood}}</span>
+                <span class="titleDescription"><b>Cidade:</b> {{companyAddress.city}}</span>
+                <span class="titleDescription"><b>CEP: </b>{{companyAddress.postalCode}}</span>
+                <span class="titleDescription"><b>País:</b> {{companyAddress.country}}</span>
+                <span class="titleDescription"><b>Data de cadastro:</b> {{companyAddress.createDate | date:"dd/MM/yyyy HH:mm"}}</span>
+                <span class="titleDescription"><b>Útima atualização:</b> {{companyAddress.updateDate | date:"dd/MM/yyyy HH:mm"}}</span>
+            </div>
+    
+            <img src="../../../assets/LineCardAddress.png" alt="line" class="line">
+    
+            <div class="areaTelephones">
+                <h3 class="titleAddress">Telefones</h3>
+                <div *ngFor="let companyTelephone of companyAddress.companyTelephones" class="telephones">
+                    <span class="titleDescription"><b>Número:</b> {{companyTelephone.phoneNumber}}</span>
+                    <span class="titleDescription"><b>Data de cadastro:</b> {{companyTelephone.createDate | date:"dd/MM/yyyy HH:mm"}}</span>
+                    <span class="titleDescription"><b>Útima atualização:</b> {{companyTelephone.updateDate | date:"dd/MM/yyyy HH:mm"}}</span>
+                </div>
             </div>
         </div>
     </div>

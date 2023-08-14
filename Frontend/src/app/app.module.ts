@@ -12,6 +12,7 @@ import { CNPJPipe } from './cnpj.pipe';
 import { HomeComponent } from './components/pages/home/home.component';
 import { InsertCompanyComponent } from './components/pages/insert-company/insert-company.component';
 import { FormCompanyComponent } from './components/form-company/form-company.component';
+import { UpdateCompanyComponent } from './components/pages/update-company/update-company.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +22,7 @@ import { FormCompanyComponent } from './components/form-company/form-company.com
     HomeComponent,
     InsertCompanyComponent,
     FormCompanyComponent,
+    UpdateCompanyComponent,
   ],
   imports: [
     BrowserModule,
