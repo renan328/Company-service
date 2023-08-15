@@ -1,6 +1,6 @@
 <div class="content">
     <h1 class="title">EDIÇÃO DE EMPRESA</h1>
-    
+
     <div *ngIf="company">
         <app-form-company (onSubmit)="updateHandler($event)" [companyData]="company" [btnText]="btnText"></app-form-company>
     </div>

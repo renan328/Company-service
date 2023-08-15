@@ -1,52 +1,52 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 0px 0px 10px 10px;
-    background: #C1D4E1;
-    padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0px 0px 10px 10px;
+  background: #c1d4e1;
+  padding: 15px;
 }
 
-.vectorArea {
-    position: absolute;
+.vectorArea > img {
+  position: absolute;
+  width: 40%;
 }
 
-.backgroundVector{
-    margin-left: -15px;
-    margin-top: -15px;
-    width: 60%;
+.backgroundVector {
+  margin-left: -15px;
+  margin-top: -15px;
 }
 
 .title {
-    color: #fff;
-    font-size: 25px;
-    font-weight: 700;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: 0.2s;
-    cursor: pointer;
-    position: relative;
+  color: #fff;
+  font-size: 25px;
+  font-weight: 700;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: 0.2s;
+  cursor: pointer;
+  position: relative;
 }
 
 .title:hover {
-    color: #C1D4E1;
+  color: #c1d4e1;
 }
 
 .header ul {
-    display: flex;
-    list-style: none;
+  display: flex;
+  list-style: none;
 }
 
 .header li {
-    font-size: 18px;
-    text-decoration: none;
-    color: #fff;
-    font-weight: 500;
-    cursor: pointer;
-    transition: 0.2s;
-    margin-right: 20px;
-    transition: 0.2s;
+  font-size: 18px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-right: 20px;
+  transition: 0.2s;
 }
 
 .header li:hover {
-    color: #000;
+  color: #000;
 }

@@ -1,4 +1,4 @@
-import { CompanyAddress } from "./CompanyAddress";
+import { CompanyAddress } from './CompanyAddress';
 export interface Company {
   id?: number;
   name: string;

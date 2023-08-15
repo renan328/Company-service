@@ -1,105 +1,106 @@
-.headerContent{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 70%;
-    margin: 0px auto;
+.headerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 70%;
+  margin: 0px auto;
 }
 
 .title {
-    margin-top: 30px;
-    text-transform: uppercase;
-    color: #000;
-    font-weight: 600;
+  margin-top: 30px;
+  text-transform: uppercase;
+  color: #000;
+  font-weight: 700;
 }
 
 .document {
-    margin-bottom: 15px;
-    font-weight: 500;
+  margin-bottom: 15px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .editButton {
-    background: #4873ff;
-    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
-    color: #FFF;
-    padding: 10px;
-    margin-top: 15px;
-    padding-inline: 30px;
-    border-radius: 3px;
-    border: none;
-    font-weight: 500;
-    margin-right: 5px;
+  background: #4873ff;
+  box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  padding: 10px;
+  margin-top: 15px;
+  padding-inline: 30px;
+  border-radius: 3px;
+  border: none;
+  font-weight: 500;
+  margin-right: 5px;
 }
 
 .removeButton {
-    background: #ff4848;
-    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
-    color: #FFF;
-    padding: 10px;
-    margin-top: 15px;
-    padding-inline: 20px;
-    border-radius: 3px;
-    border: none;
-    font-weight: 500;
-    margin-left: 5px;
+  background: #ff4848;
+  box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  padding: 10px;
+  margin-top: 15px;
+  padding-inline: 20px;
+  border-radius: 3px;
+  border: none;
+  font-weight: 500;
+  margin-left: 5px;
 }
 
 .details {
-    width: 70%;
-    margin: 0px auto;
-    display: flex;
-    margin-top: 30px;
-    margin-bottom: 50px;
-    flex-wrap: wrap;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
-    border-radius: 2px;
+  width: 70%;
+  margin: 0px auto;
+  display: flex;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  flex-wrap: wrap;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
 }
 
 .sideBar {
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-    background: #000;
-    padding: 15px;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  background: #000;
+  padding: 15px;
 }
 
-.contentArea{
-    display: flex;
-    width: 90%;
-    justify-content: space-between;
-    flex-wrap: nowrap;
+.contentArea {
+  display: flex;
+  width: 90%;
+  justify-content: space-between;
+  flex-wrap: nowrap;
 }
 
 .line {
-    width: 3px;
-    align-self: center;
-    margin: 0px auto;
+  width: 3px;
+  align-self: center;
+  margin: 0px auto;
 }
 
 .addresses {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    padding: 20px;
-    margin-right: 5%;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 20px;
+  margin-right: 5%;
+  gap: 5px;
 }
 
-.areaTelephones{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    padding: 20px;
-    gap: 15px;
+.areaTelephones {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: 20px;
+  gap: 15px;
 }
 
 .telephones {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .titleDescription {
-    margin-top: 10px;
+  margin-top: 10px;
 }

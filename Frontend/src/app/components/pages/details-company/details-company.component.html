@@ -12,11 +12,11 @@
         </div>
     </div>
  
-    <div *ngFor="let companyAddress of company.companyAddresses" class="details">
+    <div *ngFor="let companyAddress of company.companyAddresses; let i = index" class="details">
         <div class="sideBar"></div>
         <div class="contentArea">
             <div class="addresses">
-                <h3 class="titleAddress">Endereço</h3>
+                <h3 class="titleAddress">Endereço {{ i + 1 }}</h3>
                 <span class="titleDescription"><b>Rua:</b> {{companyAddress.street}}</span>
                 <span class="titleDescription"><b>Bairro:</b> {{companyAddress.neighborhood}}</span>
                 <span class="titleDescription"><b>Cidade:</b> {{companyAddress.city}}</span>

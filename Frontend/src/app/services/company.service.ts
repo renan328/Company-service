@@ -1,23 +1,27 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs'
-import { catchError, retry } from 'rxjs/operators'
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
 import { Company } from '../Company';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CompanyService {
-  private apiUrl = 'https://localhost:7287/api/Company'
+  private apiUrl = 'https://localhost:7287/api/Company';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  }
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
 
   getAll(): Observable<Company[]> {
-    return this.http.get<Company[]>(this.apiUrl)
+    return this.http.get<Company[]>(this.apiUrl);
   }
 
   getCompany(id: number): Observable<Company> {
@@ -25,26 +29,21 @@ export class CompanyService {
   }
 
   insertCompany(company: Company): Observable<Company> {
-    return this.http.post<Company>(this.apiUrl, JSON.stringify(company), this.httpOptions)
-      .pipe(
-        retry(2),
-        catchError(this.handleError)
-      )
+    return this.http
+      .post<Company>(this.apiUrl, JSON.stringify(company), this.httpOptions)
+      .pipe(retry(2), catchError(this.handleError));
   }
 
   updateCompany(company: Company): Observable<Company> {
-    return this.http.put<Company>(this.apiUrl, JSON.stringify(company), this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      )
-
+    return this.http
+      .put<Company>(this.apiUrl, JSON.stringify(company), this.httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
   deleteComapny(id: number) {
-    return this.http.delete(`${this.apiUrl}/${id}`, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      )
+    return this.http
+      .delete(`${this.apiUrl}/${id}`, this.httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
   handleError(error: HttpErrorResponse) {
@@ -56,5 +55,5 @@ export class CompanyService {
     }
     console.log(errorMessage);
     return throwError(() => errorMessage);
-  };
+  }
 }

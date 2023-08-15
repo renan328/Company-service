@@ -1,10 +1,10 @@
 .title {
-    width: 80%;
-    display: flex;
-    margin: 80px 0px 50px 0px;
+  width: 80%;
+  display: flex;
+  margin: 80px 0px 50px 0px;
 }
 
-.content{
-    width: 80%;
-    margin: 0px auto;
+.content {
+  width: 80%;
+  margin: 0px auto;
 }

@@ -5,23 +5,17 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-insert-company',
   templateUrl: './insert-company.component.html',
-  styleUrls: ['./insert-company.component.css']
+  styleUrls: ['./insert-company.component.css'],
 })
 export class InsertCompanyComponent {
-  btnText: string = 'Cadastrar'
+  btnText: string = 'Cadastrar';
 
-  constructor(private companyService: CompanyService, private router: Router) { }
+  constructor(private companyService: CompanyService, private router: Router) {}
 
   async createHandler(company: Company) {
-    this.companyService.insertCompany(company).subscribe(
-      (response: any) =>{
-        
-        alert("Empresa cadastrada com sucesso!");
-        this.router.navigate(['/']);
-
-      }
-    );
-      
-    
+    this.companyService.insertCompany(company).subscribe((response: any) => {
+      alert('Empresa cadastrada com sucesso!');
+      this.router.navigate(['/']);
+    });
   }
 }

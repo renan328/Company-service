@@ -5,24 +5,18 @@ import { Company } from 'src/app/Company';
 @Component({
   selector: 'app-list-companies',
   templateUrl: './list-companies.component.html',
-  styleUrls: ['./list-companies.component.css']
+  styleUrls: ['./list-companies.component.css'],
 })
 export class ListCompaniesComponent {
-
-
-  companies: Company[] = [
-  ]
+  companies: Company[] = [];
 
   constructor(private companyService: CompanyService) {
-    this.getCompanies()
+    this.getCompanies();
   }
 
   getCompanies(): void {
     this.companyService.getAll().subscribe(
       (companies) => (this.companies = companies),
-      (response: any) => {
-        console.log(response.status);
-      }
     );
   }
 }

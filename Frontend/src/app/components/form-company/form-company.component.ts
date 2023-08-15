@@ -1,12 +1,19 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Company } from 'src/app/Company';
 import { CompanyAddress } from 'src/app/CompanyAddress';
-import { FormBuilder, FormControl, FormGroup, FormArray, AbstractControl, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormArray,
+  AbstractControl,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-form-company',
   templateUrl: './form-company.component.html',
-  styleUrls: ['./form-company.component.css']
+  styleUrls: ['./form-company.component.css'],
 })
 export class FormCompanyComponent {
   @Output() onSubmit = new EventEmitter<Company>();
@@ -17,34 +24,34 @@ export class FormCompanyComponent {
     id: 0,
     name: '',
     document: '',
-    companyAddresses: []
+    companyAddresses: [],
   };
 
   companyForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.companyForm = this.formBuilder.group({
       id: [0],
       name: ['', Validators.required],
-      document: ['', Validators.required],
-      companyAddresses: this.formBuilder.array([
-        this.createAddress()
-      ])
+      document: ['', [Validators.required, Validators.minLength(14)]],
+      companyAddresses: this.formBuilder.array([this.createAddress()]),
     });
 
     if (this.companyData) {
       this.companyForm.patchValue({
         id: this.companyData.id,
         name: this.companyData.name,
-        document: this.companyData.document
+        document: this.companyData.document,
       });
 
-      const addressesArray = this.companyForm.get('companyAddresses') as FormArray;
+      const addressesArray = this.companyForm.get(
+        'companyAddresses'
+      ) as FormArray;
       addressesArray.clear();
 
-      this.companyData.companyAddresses.forEach(address => {
+      this.companyData.companyAddresses.forEach((address) => {
         const addressGroup = this.formBuilder.group({
           id: address.id,
           street: address.street,
@@ -52,14 +59,16 @@ export class FormCompanyComponent {
           city: address.city,
           postalCode: address.postalCode,
           country: address.country,
-          companyTelephones: this.formBuilder.array([])
+          companyTelephones: this.formBuilder.array([]),
         });
-        address.companyTelephones.forEach(phone => {
+        address.companyTelephones.forEach((phone) => {
           const phoneGroup = this.formBuilder.group({
             id: phone.id,
-            phoneNumber: phone.phoneNumber
+            phoneNumber: phone.phoneNumber,
           });
-          const phonesArray = addressGroup.get('companyTelephones') as FormArray;
+          const phonesArray = addressGroup.get(
+            'companyTelephones'
+          ) as FormArray;
           phonesArray.push(phoneGroup);
         });
 
@@ -76,17 +85,43 @@ export class FormCompanyComponent {
       city: ['', Validators.required],
       postalCode: ['', Validators.required],
       country: ['', Validators.required],
-      companyTelephones: this.formBuilder.array([
-        this.createPhone()
-      ])
+      companyTelephones: this.formBuilder.array([this.createPhone()]),
     });
   }
 
   createPhone() {
     return this.formBuilder.group({
       id: [0],
-      phoneNumber: ['', Validators.required]
+      phoneNumber: ['', [Validators.required, Validators.minLength(8)]],
     });
+  }
+
+  addAddress() {
+    const addresses = this.companyForm.get('companyAddresses') as FormArray;
+    addresses.push(this.createAddress());
+  }
+
+  removeAddress(index: number) {
+    const control = <FormArray>this.companyForm.controls['companyAddresses'];
+    control.removeAt(index);
+  }
+
+  addPhone(address: AbstractControl) {
+    const phones = address.get('companyTelephones') as FormArray;
+    phones.push(this.createPhone());
+  }
+
+  removePhone(address: AbstractControl, phoneIndex: number) {
+    const phones = address.get('companyTelephones') as FormArray;
+    phones.removeAt(phoneIndex);
+  }
+
+  getAddressesControls() {
+    return (this.companyForm.get('companyAddresses') as FormArray).controls;
+  }
+
+  getPhonesControls(address: AbstractControl) {
+    return (address.get('companyTelephones') as FormArray).controls;
   }
 
   get name() {
@@ -112,35 +147,6 @@ export class FormCompanyComponent {
   }
   get phoneNumber() {
     return this.companyForm.get('phoneNumber')!;
-  }
-
-  removeAddress(index: number) {
-    const control = <FormArray>this.companyForm.controls['companyAddresses'];
-    control.removeAt(index);
-  }
-
-
-  addAddress() {
-    const addresses = this.companyForm.get('companyAddresses') as FormArray;
-    addresses.push(this.createAddress());
-  }
-
-  addPhone(address: AbstractControl) {
-    const phones = address.get('companyTelephones') as FormArray;
-    phones.push(this.createPhone());
-  }
-
-  removePhone(address: AbstractControl, phoneIndex: number) {
-    const phones = address.get('companyTelephones') as FormArray;
-    phones.removeAt(phoneIndex);
-  }
-
-  getAddressesControls() {
-    return (this.companyForm.get('companyAddresses') as FormArray).controls;
-  }
-
-  getPhonesControls(address: AbstractControl) {
-    return (address.get('companyTelephones') as FormArray).controls;
   }
 
   submitForm() {

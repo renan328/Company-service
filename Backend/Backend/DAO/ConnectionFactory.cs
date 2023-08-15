@@ -6,7 +6,7 @@ namespace Backend.DAO
     {
         public static MySqlConnection Build()
         {
-            return new MySqlConnection("Server=localhost;Database=Teste;Uid=root;Pwd=root;");
+            return new MySqlConnection("Server=localhost;Database=CompanyService;Uid=root;Pwd=root;");
         }
     }
 }
