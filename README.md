@@ -19,6 +19,10 @@ Assim que compilar por completo, o swagger estará disponível para acesso no na
 ```
 https://localhost:7287/swagger/index.html
 ```
+#### Sobre a API
+A aplicação possui 5 endpoints. Um para a busca de todas as empresas, um para listar uma em específico, um para cadastro, um para edição e um para remoção de empresa.
+
+Assim, completando os verbos HTTP para a formação de um CRUD.
 
 ### Angular
 Na pasta do projeto, execute o seguinte comando para instalar todas as dependências.
@@ -39,9 +43,3 @@ https://localhost:4200
 ## Exemplo de uso
 Com todo o ambiente configurado, acesse a página de cadastro de empresas e cadastre uma, com os dados preenchidos corretamente, como nome, CNPJ e endereço. Ao cadastrar, já é possível visualizar a empresa na tela principal e 
 assim, ver os detalhes dela, e fazer outras operações como editar e excluir.
-
-## Endpoints
-
-A aplicação possui 5 endpoints. Um para a busca de todas as empresas, um para listar uma em específico, um para cadastro, um para edição e um para remoção de empresa.
-
-Assim, completando os verbos HTTP para a formação de um CRUD.
